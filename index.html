@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Fetch Users</title>
+  <!-- Axios CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    li { margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+  <h1>User List</h1>
+  <p id="loading">Loading users...</p>
+  <ul id="userList"></ul>
+  <p id="error" style="color: red;"></p>
+
+  <script>
+    const userList = document.getElementById("userList");
+    const loading = document.getElementById("loading");
+    const error = document.getElementById("error");
+
+    // Fetch users from API
+    axios.get("https://jsonplaceholder.typicode.com/users")
+      .then(response => {
+        loading.style.display = "none"; // hide loading message
+        response.data.forEach(user => {
+          const li = document.createElement("li");
+          li.innerHTML = `<strong>${user.name}</strong><br>Email: ${user.email}<br>Phone: ${user.phone}`;
+          userList.appendChild(li);
+        });
+      })
+      .catch(() => {
+        loading.style.display = "none";
+        error.textContent = "Error fetching users!";
+      });
+  </script>
+</body>
+</html>
